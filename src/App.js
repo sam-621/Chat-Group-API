@@ -5,7 +5,6 @@ const { PORT } = require('./config/');
 
 io.on('connection', (socket) => {
   socket.on('chat message', ({ msg, username, ID }) => {
-    console.log(msg, username, ID);
     io.emit('chat message', { msg, username, ID });
   });
 });
