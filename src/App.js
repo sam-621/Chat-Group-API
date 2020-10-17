@@ -3,10 +3,6 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const { PORT } = require('./config/');
 
-app.get('/', (req, res) => {
-  res.send('hi');
-});
-
 io.on('connection', (socket) => {
   socket.on('chat message', ({ msg, username }) => {
     console.log(msg, username);
