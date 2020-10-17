@@ -1,8 +1,17 @@
-const app = require("express")();
-const { PORT } = require("./config/");
+const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const { PORT } = require('./config/');
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
+app.get('/', (req, res) => {
+  res.send('hi');
 });
 
-app.listen(PORT, () => console.log("Working"));
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    console.log(msg);
+    io.emit('chat message', msg);
+  });
+});
+
+http.listen(PORT, () => console.log('Working'));
