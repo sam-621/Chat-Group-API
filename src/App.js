@@ -1,12 +1,8 @@
-const app = require('express')();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const express = require('express');
+const Socket = require('./socket');
 const { PORT } = require('./config/');
 
-io.on('connection', (socket) => {
-  socket.on('chat message', ({ msg, username, ID }) => {
-    io.emit('chat message', { msg, username, ID });
-  });
-});
+const app = express();
+const socket = new Socket(app);
 
-http.listen(PORT, () => console.log('Working'));
+socket.http.listen(PORT, () => console.log('Working'));
