@@ -1,7 +1,7 @@
 {
-  "name": "chatgroup-api",
+  "name": "chat-group-api",
   "version": "0.0.0",
-  "description": "An API for A web applicaion",
+  "description": "An API for A web application",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.ts"
@@ -22,13 +22,16 @@
   },
   "homepage": "https://github.com/rogeliosamuel621/Chat-Group-API#readme",
   "dependencies": {
+    "apollo-server-express": "^3.5.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "graphql": "^16.0.1",
     "helmet": "^4.6.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/graphql": "^14.5.0",
     "@types/morgan": "^1.9.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.5",
