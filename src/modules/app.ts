@@ -1,11 +1,12 @@
 import express from 'express';
-import { ApolloServer, gql } from 'apollo-server-express';
-import { resolvers, typeDefs } from '../index';
+import { ApolloServer } from 'apollo-server-express';
+import { resolvers } from './resolves';
+import { typeDefs, typeDefs2 } from './schema';
 
 export class App {
   async bootstrap() {
     const server = new ApolloServer({
-      typeDefs: typeDefs,
+      typeDefs: [typeDefs, typeDefs2],
       resolvers: resolvers,
     });
     await server.start();
