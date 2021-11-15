@@ -3,8 +3,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { resolvers } from './resolves';
 import { typeDefs, typeDefs2 } from './schema';
 import passport from 'passport';
-import { loadPassport } from '../common/auth/passport';
-import LocalStrategy from 'passport-local';
+import { loadLocalStrategy } from '../common/auth/strategies/local.strategy';
 
 export class App {
   async bootstrap() {
@@ -19,25 +18,8 @@ export class App {
     app.use(express.json());
     server.applyMiddleware({ app });
 
-    // loadPassport(passport);
+    loadLocalStrategy(passport);
     app.use(passport.initialize());
-    passport.use(
-      new LocalStrategy.Strategy((username, password, done) => {
-        if (username !== 'admin' || password !== '123') {
-          return done('Wrong credentials', null);
-        }
-
-        return done(null, { username, password });
-      })
-    );
-
-    passport.serializeUser(function (user, done) {
-      done(null, user);
-    });
-
-    passport.deserializeUser(function (id, done) {
-      done(null, id);
-    });
 
     app.get('/', (req, res) => res.send('in home'));
 
