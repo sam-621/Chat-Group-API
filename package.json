@@ -4,7 +4,7 @@
   "description": "An API for A web application",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "dev": "export NODE_ENV=dev && nodemon src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "graphql": "^16.0.1",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.14",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0"
   },
@@ -38,6 +39,7 @@
     "@types/express": "^4.17.13",
     "@types/graphql": "^14.5.0",
     "@types/jsonwebtoken": "^8.5.6",
+    "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.3",
     "@types/passport": "^1.0.7",
     "@types/passport-local": "^1.0.34",
