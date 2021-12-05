@@ -6,11 +6,6 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "outDir": "dist",
-    "baseUrl": "./src",
-    "paths": {
-      "@auth/*": ["common/auth"],
-      "@config/*": ["common/config"]
-    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
