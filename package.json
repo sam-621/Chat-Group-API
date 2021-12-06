@@ -4,7 +4,7 @@
   "description": "An API for A web application",
   "main": "src/index.js",
   "scripts": {
-    "dev": "export NODE_ENV=dev && nodemon src/index.ts"
+    "dev": "export NODE_ENV=dev && nodemon src/server.ts"
   },
   "repository": {
     "type": "git",
