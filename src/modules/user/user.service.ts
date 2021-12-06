@@ -1,11 +1,11 @@
 import { AuthService } from '../../common/auth/auth.service';
 import { HttpStatusCode } from '../../common/utils/httpStatusCodes';
 import { ServiceResponse } from '../../common/utils/ServiceResponse';
-import { TRegisterUser } from './user.interface';
+import { TRegisterDto } from './dto/auth.dto';
 import { UserRepository } from './user.repository';
 
 export class UserService {
-  static async register(user: TRegisterUser) {
+  static async register(user: TRegisterDto): Promise<ServiceResponse<string>> {
     const userInDbWithSameEmail = UserRepository.getByEmail(user.email);
 
     if (!userInDbWithSameEmail) {
@@ -14,7 +14,7 @@ export class UserService {
 
     const hashedPassword = await AuthService.hashPassword(user.password);
 
-    const userToSave: TRegisterUser = {
+    const userToSave: TRegisterDto = {
       ...user,
       password: hashedPassword,
     };

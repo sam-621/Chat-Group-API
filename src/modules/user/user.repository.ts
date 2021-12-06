@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongoose';
-import { TRegisterUser } from './user.interface';
+import { TRegisterDto } from './dto/auth.dto';
 import { UserModel } from './user.schema';
 
 export class UserRepository {
@@ -11,7 +11,7 @@ export class UserRepository {
     return UserModel.findById(id, ...fields);
   }
 
-  static async save(user: TRegisterUser) {
+  static async save(user: TRegisterDto) {
     const userToSave = new UserModel({
       ...user,
     });
