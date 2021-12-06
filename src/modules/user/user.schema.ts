@@ -8,4 +8,4 @@ const userSchema = new Schema<IUser>({
   profilePic: { type: String, required: false, default: '' },
 });
 
-export const userModel = model<IUser>('users', userSchema);
+export const UserModel = model<IUser>('users', userSchema);
