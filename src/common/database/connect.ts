@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { ENVIRONMENTS } from '../../common/config/constants.config';
-import { MODE } from '../../common/config/env.config';
+import { ENVIRONMENTS } from '../config/constants.config';
+import { MODE } from '../config/env.config';
 
 const { DEVELOPMENT } = ENVIRONMENTS;
 

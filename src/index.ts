@@ -1,6 +1,6 @@
 import { MONGO_DB_URI } from './common/config/env.config';
 import { App } from './modules/app';
-import { connectToDB } from './modules/database/connect';
+import { connectToDB } from './common/database/connect';
 
 const app = new App();
 
