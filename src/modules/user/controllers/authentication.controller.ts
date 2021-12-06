@@ -5,10 +5,18 @@ import { TRegisterDto } from '../dto/auth.dto';
 import { UserService } from '../user.service';
 
 export class AuthenticationController implements IController {
-  path = '/user';
+  path = '/user/auth';
   router = Router();
 
-  async register(req: Request, res: Response) {
+  constructor() {
+    this.setupRoutes();
+  }
+
+  private setupRoutes() {
+    this.router.post(`${this.path}/register`, this.register);
+  }
+
+  private async register(req: Request, res: Response) {
     const userRegisterData: TRegisterDto = req.body;
 
     const serviceResponse = await UserService.register(userRegisterData);

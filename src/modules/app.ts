@@ -3,15 +3,18 @@ import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import { resolvers } from './resolves';
 import { typeDefs, typeDefs2 } from './schema';
 import morgan from 'morgan';
+import { IController } from '../common/interfaces/util.interface';
 
 export class App {
   app: Application;
   apolloServer: ApolloServer<ExpressContext>;
+  controllers: IController[];
 
-  constructor() {
+  constructor(controllers: IController[]) {
+    this.controllers = controllers;
     this.setupExpressApp();
+    this.setupControllers();
     this.setupApolloServer();
-    this.setupExpressMiddleware();
   }
 
   listen(port: number) {
@@ -34,6 +37,12 @@ export class App {
     await this.apolloServer.start();
 
     this.setupApolloServerMiddleware();
+  }
+
+  private setupControllers() {
+    this.controllers.forEach((controller) => {
+      this.app.use('/', controller.router);
+    });
   }
 
   private setupExpressMiddleware() {
