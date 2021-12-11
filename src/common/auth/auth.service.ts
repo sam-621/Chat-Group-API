@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { IPayload } from '../../modules/user/user.interface';
 import { SALT } from '../config/constants.config';
 import { JWT_EXPIRES_IN, JWT_SECRET } from '../config/env.config';
 
@@ -20,7 +21,7 @@ export class AuthService {
     }
   }
 
-  static async createJWT(payload: object) {
+  static async createJWT(payload: IPayload) {
     try {
       return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
     } catch (error) {
