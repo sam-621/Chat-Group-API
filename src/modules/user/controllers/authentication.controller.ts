@@ -3,6 +3,7 @@ import { IController } from '../../../common/interfaces/util.interface';
 import { ControllerResponse } from '../../../common/utils/ControllerResponse';
 import { TRegisterDto } from '../dto/auth.dto';
 import { AuthenticationService } from '../services/authentication.service';
+import { registerValidator } from '../validators/authentication.validator';
 
 export class AuthenticationController implements IController {
   path = '/user/auth';
@@ -13,7 +14,7 @@ export class AuthenticationController implements IController {
   }
 
   private setupRoutes() {
-    this.router.post(`${this.path}/register`, this.register);
+    this.router.post(`${this.path}/register`, registerValidator, this.register);
   }
 
   private async register(req: Request, res: Response) {
