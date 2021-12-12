@@ -6,7 +6,7 @@ export class MiddlewareResponse {
   statusCode: number;
   error: unknown;
 
-  constructor(message: string, res: Response, statusCode: number, error?: unknown) {
+  constructor(message: string, statusCode: number, res: Response, error?: unknown) {
     this.message = message;
     this.res = res;
     this.statusCode = statusCode;

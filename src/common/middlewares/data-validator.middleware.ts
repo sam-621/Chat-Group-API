@@ -10,8 +10,8 @@ export const dataValidator = (req: Request, res: Response, next: NextFunction) =
 
   return new MiddlewareResponse(
     'Wrong data schema',
-    res,
     HttpStatusCode.BAD_REQUEST,
+    res,
     errors.array()
   );
 };
