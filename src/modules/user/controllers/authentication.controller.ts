@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { IController } from '../../../common/interfaces/util.interface';
 import { ControllerResponse } from '../../../common/utils/ControllerResponse';
 import { TRegisterDto } from '../dto/auth.dto';
-import { UserService } from '../user.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 export class AuthenticationController implements IController {
   path = '/user/auth';
@@ -19,7 +19,7 @@ export class AuthenticationController implements IController {
   private async register(req: Request, res: Response) {
     const userRegisterData: TRegisterDto = req.body;
 
-    const serviceResponse = await UserService.register(userRegisterData);
+    const serviceResponse = await AuthenticationService.register(userRegisterData);
 
     new ControllerResponse(serviceResponse, res);
   }
