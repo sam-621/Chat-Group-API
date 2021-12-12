@@ -2,6 +2,7 @@ import { AuthService } from '../../../common/auth/auth.service';
 import { HttpStatusCode } from '../../../common/utils/httpStatusCodes';
 import { ServiceResponse } from '../../../common/utils/ServiceResponse';
 import { TRegisterDto } from '../dto/auth.dto';
+import { IPayload } from '../user.interface';
 import { UserRepository } from '../user.repository';
 
 export class AuthenticationService {
@@ -26,7 +27,7 @@ export class AuthenticationService {
 
       const userSaved = await UserRepository.save(userToSave);
 
-      const payload = {
+      const payload: IPayload = {
         id: userSaved._id,
       };
 
