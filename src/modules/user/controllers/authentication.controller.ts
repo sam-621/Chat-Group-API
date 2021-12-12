@@ -4,7 +4,7 @@ import { ControllerResponse } from '../../../common/utils/ControllerResponse';
 import { TRegisterDto } from '../dto/auth.dto';
 import { AuthenticationService } from '../services/authentication.service';
 import { registerValidator } from '../validators/authentication.validator';
-import { dataValidator } from '../../../common/middlewares/dataValidator.middleware';
+import { dataValidator } from '../../../common/middlewares/data-validator.middleware';
 
 export class AuthenticationController implements IController {
   path = '/user/auth';
