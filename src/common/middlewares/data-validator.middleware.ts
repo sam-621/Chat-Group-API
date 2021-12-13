@@ -6,7 +6,10 @@ import { MiddlewareResponse } from '../utils/middlewareResponse';
 export const dataValidator = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
 
-  if (errors.isEmpty()) next();
+  if (errors.isEmpty()) {
+    next();
+    return;
+  }
 
   return new MiddlewareResponse(
     'Wrong data schema',

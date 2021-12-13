@@ -8,7 +8,7 @@ import { UserRepository } from '../user.repository';
 export class AuthenticationService {
   static async register(user: TRegisterDto): Promise<ServiceResponse<string>> {
     try {
-      const userInDbWithSameEmail = UserRepository.getByEmail(user.email);
+      const userInDbWithSameEmail = await UserRepository.getByEmail(user.email);
 
       if (Boolean(userInDbWithSameEmail)) {
         return new ServiceResponse(
