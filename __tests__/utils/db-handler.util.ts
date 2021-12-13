@@ -1,19 +1,33 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
-const mongod = new MongoMemoryServer();
+class MongoSingleton {
+  private static instance: MongoMemoryServer;
 
-export const dbConnection = async (done: any) => {
-  const uri = mongod.getUri();
+  private constructor() {}
+
+  public static async getInstance(): Promise<MongoMemoryServer> {
+    if (!MongoSingleton.instance) {
+      MongoSingleton.instance = await MongoMemoryServer.create();
+    }
+
+    return MongoSingleton.instance;
+  }
+}
+
+export const dbConnection = async (done: jest.DoneCallback) => {
+  const mongo = await MongoSingleton.getInstance();
+  const uri = mongo.getUri();
 
   await mongoose.connect(uri);
   done();
 };
 
-export const dbClose = async (done: any) => {
+export const dbClose = async (done: jest.DoneCallback) => {
+  const mongo = await MongoSingleton.getInstance();
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongod.stop();
+  await mongo.stop();
   done();
 };
 

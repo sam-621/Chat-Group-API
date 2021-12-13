@@ -8,6 +8,7 @@ module.exports = {
     },
   },
   testEnvironment: 'node',
+  testRunner: 'jest-jasmine2',
   displayName: {
     name: 'SERVER',
     color: 'yellow',

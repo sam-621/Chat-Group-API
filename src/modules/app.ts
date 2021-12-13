@@ -5,14 +5,15 @@ import { typeDefs, typeDefs2 } from './schema';
 import morgan from 'morgan';
 import { IController } from '../common/interfaces/util.interface';
 import { apiKeyValidator } from '../common/middlewares/api-key.middleware';
+import { AuthenticationController } from './user/controllers/authentication.controller';
 
 export class App {
   app: Application;
   apolloServer: ApolloServer<ExpressContext>;
   controllers: IController[];
 
-  constructor(controllers: IController[]) {
-    this.controllers = controllers;
+  constructor() {
+    this.controllers = [new AuthenticationController()];
     this.setupExpressApp();
     this.setupControllers();
     this.setupApolloServer();
