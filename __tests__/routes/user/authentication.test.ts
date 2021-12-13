@@ -1,10 +1,7 @@
-import req from 'supertest';
 import { dbClose, dbConnection } from '../../utils/db-handler.util';
 import { MockUser } from '../../utils/fake-data.util';
-
-import { App } from '../../../src/modules/app';
-import { API_KEY } from '../../../src/common/config/env.config';
-const app = new App().app;
+import { post } from '../../utils/petition';
+import { HttpStatusCode } from '../../../src/common/utils/httpStatusCodes';
 
 describe('Register route', () => {
   beforeAll(dbConnection);
@@ -12,12 +9,9 @@ describe('Register route', () => {
 
   test('Should response 400 Wrong data schema', async (done) => {
     const mockUser = new MockUser('', 'admim@gmail.c', '123');
-    const res = await req(app)
-      .post('/user/auth/register')
-      .set('authorization', API_KEY)
-      .send(mockUser);
+    const res = await post('/user/auth/register', mockUser);
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(HttpStatusCode.BAD_REQUEST);
     expect(res.body.message).toBe('Wrong data schema');
     done();
   });
