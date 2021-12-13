@@ -28,4 +28,14 @@ describe('Register route', () => {
     expect(res.body.message).toBe('user with that email already exists');
     done();
   });
+
+  test('Should response 200 user registered', async (done) => {
+    const mockUser = new MockUser('test@gmail.com', '123456', 'test');
+
+    const res = await post('/user/auth/register', mockUser);
+
+    expect(res.status).toBe(HttpStatusCode.CREATED);
+    expect(res.body.message).toBe('user registered');
+    done();
+  });
 });
