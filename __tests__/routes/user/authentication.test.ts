@@ -12,10 +12,13 @@ describe('Register route', () => {
 
   test('Should response 400 Wrong data schema', async (done) => {
     const mockUser = new MockUser('', 'admim@gmail.c', '123');
-    const res = await req(app).post('/register').set('api_key', API_KEY).send(mockUser);
+    const res = await req(app)
+      .post('/user/auth/register')
+      .set('authorization', API_KEY)
+      .send(mockUser);
 
     expect(res.status).toBe(400);
-    expect(res.body.message).toBe('WRONG DATA SCHEMA');
+    expect(res.body.message).toBe('Wrong data schema');
     done();
   });
 });
