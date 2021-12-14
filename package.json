@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "export NODE_ENV=dev && nodemon src/server.ts",
+    "test:routes": "jest /routes/",
     "prepare": "node scripts/secrets.js"
   },
   "repository": {

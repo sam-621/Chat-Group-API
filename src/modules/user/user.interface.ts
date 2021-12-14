@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 export interface IUser {
   username: string;
@@ -10,3 +10,13 @@ export interface IUser {
 export interface IPayload {
   id: ObjectId;
 }
+
+export interface IAuthenticationResponse {
+  token: string;
+  user: TAuthenticationUser;
+}
+
+export type TAuthenticationUser = Document<any, any, Omit<IUser, 'password'>> &
+  IUser & {
+    _id: ObjectId;
+  };

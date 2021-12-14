@@ -2,11 +2,11 @@ import { AuthService } from '../../../common/auth/auth.service';
 import { HttpStatusCode } from '../../../common/utils/httpStatusCodes';
 import { ServiceResponse } from '../../../common/utils/ServiceResponse';
 import { TLoginDto, TRegisterDto } from '../dto/auth.dto';
-import { IPayload } from '../user.interface';
+import { IAuthenticationResponse, IPayload, TAuthenticationUser } from '../user.interface';
 import { UserRepository } from '../user.repository';
 
 export class AuthenticationService {
-  static async register(user: TRegisterDto): Promise<ServiceResponse<string>> {
+  static async register(user: TRegisterDto): Promise<ServiceResponse<IAuthenticationResponse>> {
     try {
       const userInDbWithSameEmail = await UserRepository.getByEmail(user.email);
 
@@ -25,7 +25,8 @@ export class AuthenticationService {
         password: hashedPassword,
       };
 
-      const userSaved = await UserRepository.save(userToSave);
+      const userSaved: TAuthenticationUser = await UserRepository.save(userToSave);
+      userSaved.password = undefined;
 
       const payload: IPayload = {
         id: userSaved._id,
@@ -33,28 +34,49 @@ export class AuthenticationService {
 
       const token = await AuthService.createJWT(payload);
 
-      return new ServiceResponse(HttpStatusCode.CREATED, token, 'user registered');
+      const res: IAuthenticationResponse = {
+        token,
+        user: userSaved,
+      };
+
+      return new ServiceResponse(HttpStatusCode.CREATED, res, 'user registered');
     } catch (error) {
+      console.log(error);
+
       return new ServiceResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, null, 'Unexpected error');
     }
   }
 
-  static async login(user: TLoginDto) {
+  static async login(user: TLoginDto): Promise<ServiceResponse<IAuthenticationResponse>> {
     try {
-      const userInDb = await UserRepository.getByEmail(user.email);
+      const userInDb: TAuthenticationUser = await UserRepository.getByEmail(user.email);
 
       if (!userInDb) {
         return new ServiceResponse(HttpStatusCode.UNAUTHORIZED, null, 'wrong credentials');
       }
 
-      const passwordsMatch = AuthService.comparePasswords(user.password, userInDb.password);
+      const passwordsMatch = await AuthService.comparePasswords(user.password, userInDb.password);
 
       if (!passwordsMatch) {
         return new ServiceResponse(HttpStatusCode.UNAUTHORIZED, null, 'wrong credentials');
       }
 
-      return new ServiceResponse(HttpStatusCode.OK, userInDb, 'OK');
+      userInDb.password = undefined;
+
+      const payload: IPayload = {
+        id: userInDb._id,
+      };
+
+      const token = await AuthService.createJWT(payload);
+
+      const res: IAuthenticationResponse = {
+        token,
+        user: userInDb,
+      };
+
+      return new ServiceResponse(HttpStatusCode.OK, res, 'OK');
     } catch (error) {
+      console.log(error);
       return new ServiceResponse(
         HttpStatusCode.INTERNAL_SERVER_ERROR,
         null,

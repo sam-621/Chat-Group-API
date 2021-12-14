@@ -4,7 +4,7 @@ import { UserModel } from './user.schema';
 
 export class UserRepository {
   static async getByEmail(email: string, fields: string[] = []) {
-    return UserModel.findOne({ email }, ...fields);
+    return UserModel.findOne({ email }, fields);
   }
 
   static async getById(id: ObjectId, fields: string[] = []) {
