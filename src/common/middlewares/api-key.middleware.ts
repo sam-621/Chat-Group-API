@@ -5,6 +5,12 @@ import { MiddlewareResponse } from '../utils/middlewareResponse';
 
 export const apiKeyValidator: IMiddleware = (req, res, next) => {
   const apiKey = req.headers['authorization'];
+  const isGraphqlUrl = req.url === '/graphql';
+
+  if (isGraphqlUrl) {
+    next();
+    return;
+  }
 
   if (!apiKey || apiKey !== API_KEY) {
     return new MiddlewareResponse('No api key provided', HttpStatusCode.UNAUTHORIZED, res);
