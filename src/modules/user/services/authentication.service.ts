@@ -1,4 +1,5 @@
 import { AuthService } from '../../../common/auth/auth.service';
+import { getErrorMessage } from '../../../common/utils/error';
 import { HttpStatusCode } from '../../../common/utils/httpStatusCodes';
 import { ServiceResponse } from '../../../common/utils/ServiceResponse';
 import { TLoginDto, TRegisterDto } from '../dto/auth.dto';
@@ -41,8 +42,7 @@ export class AuthenticationService {
 
       return new ServiceResponse(HttpStatusCode.CREATED, res, 'user registered');
     } catch (error) {
-      console.log(error);
-
+      getErrorMessage(error);
       return new ServiceResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, null, 'Unexpected error');
     }
   }
@@ -76,7 +76,7 @@ export class AuthenticationService {
 
       return new ServiceResponse(HttpStatusCode.OK, res, 'OK');
     } catch (error) {
-      console.log(error);
+      getErrorMessage(error);
       return new ServiceResponse(
         HttpStatusCode.INTERNAL_SERVER_ERROR,
         null,
