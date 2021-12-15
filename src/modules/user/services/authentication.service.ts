@@ -52,13 +52,13 @@ export class AuthenticationService {
       const userInDb: TAuthenticationUser = await UserRepository.getByEmail(user.email);
 
       if (!userInDb) {
-        return new ServiceResponse(HttpStatusCode.UNAUTHORIZED, null, 'wrong credentials');
+        return new ServiceResponse(HttpStatusCode.UNAUTHORIZED, null, 'Wrong credentials');
       }
 
       const passwordsMatch = await AuthService.comparePasswords(user.password, userInDb.password);
 
       if (!passwordsMatch) {
-        return new ServiceResponse(HttpStatusCode.UNAUTHORIZED, null, 'wrong credentials');
+        return new ServiceResponse(HttpStatusCode.UNAUTHORIZED, null, 'Wrong credentials');
       }
 
       userInDb.password = undefined;

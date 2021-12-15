@@ -1,14 +1,12 @@
-import { clearDatabase, dbClose, dbConnection } from '../../utils/db-handler.util';
+import { clearDatabase, dbClose, dbConnection, saveUserInDB } from '../../utils/db-handler.util';
 import { MockUser } from '../../utils/fake-data.util';
 import { post } from '../../utils/petition';
 import { HttpStatusCode } from '../../../src/common/utils/httpStatusCodes';
 import { UserModel } from '../../../src/modules/user/user.schema';
-
+beforeAll(dbConnection);
+afterEach(clearDatabase);
+afterAll(dbClose);
 describe('Register route', () => {
-  beforeAll(dbConnection);
-  afterEach(clearDatabase);
-  afterAll(dbClose);
-
   test('Should response 400 Wrong data schema', async (done) => {
     const mockUser = new MockUser('admim@gmail.c', '123', '');
     const res = await post('/user/auth/register', mockUser);
@@ -36,6 +34,57 @@ describe('Register route', () => {
 
     expect(res.status).toBe(HttpStatusCode.CREATED);
     expect(res.body.message).toBe('user registered');
+    done();
+  });
+});
+
+describe('Login endpoint', () => {
+  // beforeAll(dbConnection);
+  // afterEach(clearDatabase);
+  // afterAll(dbClose);
+
+  test('Should response 400 Wrong data schema', async (done) => {
+    const mockUser = new MockUser('test.com', '123', '');
+    const res = await post('/user/auth/login', mockUser);
+
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe('Wrong data schema');
+    done();
+  });
+
+  test('Should response 401 wrong email', async (done) => {
+    const correctMockUser = new MockUser('admin@gmail.com', '123456', 'admin');
+    const incorrectMockUser = new MockUser('wrongAdmin@gmail.com', '123456', 'admin');
+    await UserModel.create(correctMockUser);
+
+    const res = await post('/user/auth/login', incorrectMockUser);
+    console.log(res.body);
+
+    expect(res.status).toBe(401);
+    expect(res.body.message).toBe('Wrong credentials');
+    done();
+  });
+
+  test('Should response 401 wrong password', async (done) => {
+    const correctMockUser = new MockUser('admin@gmail.com', '123456', 'admin');
+    const incorrectMockUser = new MockUser('admin@gmail.com', '1234567', 'admin');
+    await UserModel.create(correctMockUser);
+
+    const res = await post('/user/auth/login', incorrectMockUser);
+
+    expect(res.status).toBe(401);
+    expect(res.body.message).toBe('Wrong credentials');
+    done();
+  });
+
+  test('Should response 200 OK', async (done) => {
+    const mockUser = new MockUser('adminNice@gmail.com', '123456', 'admin');
+    await saveUserInDB();
+
+    const res = await post('/user/auth/login', mockUser);
+
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe('OK');
     done();
   });
 });
