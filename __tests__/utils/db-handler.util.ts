@@ -44,9 +44,14 @@ export const clearDatabase = async () => {
   }
 };
 
-export const saveUserInDB = async () => {
-  const mockUser = new MockUser('adminNice@gmail.com', '123456', 'admin');
+export const saveUserInDB = async (
+  email = 'admin@gmail.com',
+  password = '123456',
+  username = 'admin'
+) => {
+  const mockUser = new MockUser(email, password, username);
 
   mockUser.password = await bcryptjs.hash(mockUser.password, SALT);
+
   await UserModel.create(mockUser);
 };

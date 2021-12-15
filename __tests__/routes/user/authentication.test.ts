@@ -17,8 +17,8 @@ describe('Register route', () => {
   });
 
   test('Should response 400 Email already taken', async (done) => {
-    const mockUser = new MockUser('test@gmail.com', '123456', 'test');
-    await UserModel.create(mockUser);
+    const mockUser = new MockUser('admin@gmail.com', '123456', 'admin');
+    await saveUserInDB();
 
     const res = await post('/user/auth/register', mockUser);
 
@@ -39,10 +39,6 @@ describe('Register route', () => {
 });
 
 describe('Login endpoint', () => {
-  // beforeAll(dbConnection);
-  // afterEach(clearDatabase);
-  // afterAll(dbClose);
-
   test('Should response 400 Wrong data schema', async (done) => {
     const mockUser = new MockUser('test.com', '123', '');
     const res = await post('/user/auth/login', mockUser);
@@ -53,12 +49,10 @@ describe('Login endpoint', () => {
   });
 
   test('Should response 401 wrong email', async (done) => {
-    const correctMockUser = new MockUser('admin@gmail.com', '123456', 'admin');
+    await saveUserInDB();
     const incorrectMockUser = new MockUser('wrongAdmin@gmail.com', '123456', 'admin');
-    await UserModel.create(correctMockUser);
 
     const res = await post('/user/auth/login', incorrectMockUser);
-    console.log(res.body);
 
     expect(res.status).toBe(401);
     expect(res.body.message).toBe('Wrong credentials');
@@ -66,9 +60,8 @@ describe('Login endpoint', () => {
   });
 
   test('Should response 401 wrong password', async (done) => {
-    const correctMockUser = new MockUser('admin@gmail.com', '123456', 'admin');
+    await saveUserInDB();
     const incorrectMockUser = new MockUser('admin@gmail.com', '1234567', 'admin');
-    await UserModel.create(correctMockUser);
 
     const res = await post('/user/auth/login', incorrectMockUser);
 
@@ -78,8 +71,8 @@ describe('Login endpoint', () => {
   });
 
   test('Should response 200 OK', async (done) => {
-    const mockUser = new MockUser('adminNice@gmail.com', '123456', 'admin');
     await saveUserInDB();
+    const mockUser = new MockUser('admin@gmail.com', '123456', 'admin');
 
     const res = await post('/user/auth/login', mockUser);
 
