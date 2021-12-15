@@ -9,11 +9,14 @@ import { createServer, Server as HttpServer } from 'http';
 import { AuthenticationController } from './user/controllers/authentication.controller';
 import { Server } from 'socket.io';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import { publicChat } from './sockets/handlers';
+import { PUBLIC_CHAT } from '../common/config/constants.config';
+import { TIo } from './sockets/socket.interfaces';
 
 export class App {
   server: HttpServer;
   app: Application;
-  io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
+  io: TIo;
   apolloServer: ApolloServer<ExpressContext>;
   controllers: IController[];
 
@@ -55,12 +58,7 @@ export class App {
 
   private setupSockets() {
     this.io.on('connection', (socket) => {
-      console.log('connected');
-      socket.on('chat', (socket) => {
-        console.log('hi');
-
-        this.io.emit('chat', { data: ':D' });
-      });
+      socket.on(PUBLIC_CHAT, publicChat(this.io));
     });
   }
 
