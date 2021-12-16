@@ -36,4 +36,12 @@ export class AuthService {
       console.log(error);
     }
   }
+
+  static async decodeToken(token: string): Promise<IPayload> {
+    try {
+      return jwt.decode(token) as IPayload;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

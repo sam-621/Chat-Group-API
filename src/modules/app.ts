@@ -4,7 +4,6 @@ import { resolvers } from './resolves';
 import { typeDefs, typeDefs2 } from './schema';
 import morgan from 'morgan';
 import { IController } from '../common/interfaces/util.interface';
-import { apiKeyValidator } from '../common/middlewares/api-key.middleware';
 import { createServer, Server as HttpServer } from 'http';
 import { AuthenticationController } from './user/controllers/authentication.controller';
 import { Server } from 'socket.io';
@@ -68,7 +67,6 @@ export class App {
   }
 
   private setupExpressMiddleware() {
-    this.app.use(apiKeyValidator);
     this.app.use(morgan('dev'));
     this.app.use(express.json());
   }
