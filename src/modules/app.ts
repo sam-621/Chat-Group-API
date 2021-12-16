@@ -10,6 +10,7 @@ import { Server } from 'socket.io';
 import { publicChatHandler } from './sockets/handlers';
 import { PUBLIC_CHAT } from '../common/config/constants.config';
 import { TIo } from './sockets/socket.interfaces';
+import { UserController } from './user/controllers/user.controller';
 
 export class App {
   server: HttpServer;
@@ -19,7 +20,7 @@ export class App {
   controllers: IController[];
 
   constructor() {
-    this.controllers = [new AuthenticationController()];
+    this.controllers = [new AuthenticationController(), new UserController()];
     this.setupExpressApp();
     this.setupControllers();
     this.setupApolloServer();

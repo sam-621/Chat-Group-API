@@ -15,6 +15,10 @@ export const hasValidJwt: IMiddleware = async (req, res, next) => {
   try {
     const decoded = await AuthService.decodeToken(token);
 
+    if (!decoded) {
+      return new MiddlewareResponse('Token invalido', HttpStatusCode.UNAUTHORIZED, res);
+    }
+
     const user = await UserRepository.getById(decoded.id, ['_id']);
 
     if (!user) {
@@ -24,6 +28,8 @@ export const hasValidJwt: IMiddleware = async (req, res, next) => {
     req.user = decoded as IPayload;
     next();
   } catch (err) {
+    console.log(err);
+
     return new MiddlewareResponse(
       'Internal server error',
       HttpStatusCode.INTERNAL_SERVER_ERROR,
