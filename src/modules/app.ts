@@ -8,8 +8,7 @@ import { apiKeyValidator } from '../common/middlewares/api-key.middleware';
 import { createServer, Server as HttpServer } from 'http';
 import { AuthenticationController } from './user/controllers/authentication.controller';
 import { Server } from 'socket.io';
-import { DefaultEventsMap } from 'socket.io/dist/typed-events';
-import { publicChat } from './sockets/handlers';
+import { publicChatHandler } from './sockets/handlers';
 import { PUBLIC_CHAT } from '../common/config/constants.config';
 import { TIo } from './sockets/socket.interfaces';
 
@@ -25,7 +24,7 @@ export class App {
     this.setupExpressApp();
     this.setupControllers();
     this.setupApolloServer();
-    this.setupSocketPath();
+    this.setupSocketServer();
   }
 
   listen(port: number) {
@@ -51,14 +50,14 @@ export class App {
     this.setupApolloServerMiddleware();
   }
 
-  private async setupSocketPath() {
+  private async setupSocketServer() {
     this.io = new Server(this.server);
     this.setupSockets();
   }
 
   private setupSockets() {
     this.io.on('connection', (socket) => {
-      socket.on(PUBLIC_CHAT, publicChat(this.io));
+      socket.on(PUBLIC_CHAT, publicChatHandler(this.io));
     });
   }
 
