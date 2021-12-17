@@ -2,6 +2,7 @@ import { IPayload } from '../../modules/user/user.interface';
 import { UserRepository } from '../../modules/user/user.repository';
 import { AuthService } from '../auth/auth.service';
 import { IMiddleware } from '../interfaces/util.interface';
+import { getErrorMessage } from '../utils/error';
 import { HttpStatusCode } from '../utils/httpStatusCodes';
 import { MiddlewareResponse } from '../utils/middlewareResponse';
 
@@ -27,8 +28,8 @@ export const hasValidJwt: IMiddleware = async (req, res, next) => {
 
     req.user = decoded as IPayload;
     next();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    getErrorMessage(error);
 
     return new MiddlewareResponse(
       'Internal server error',

@@ -3,13 +3,14 @@ import jwt from 'jsonwebtoken';
 import { IPayload } from '../../modules/user/user.interface';
 import { SALT } from '../config/constants.config';
 import { JWT_EXPIRES_IN, JWT_SECRET } from '../config/env.config';
+import { getErrorMessage } from '../utils/error';
 
 export class AuthService {
   static async hashPassword(password: string): Promise<string> {
     try {
       return await bcrypt.hash(password, SALT);
     } catch (error) {
-      console.log(error);
+      getErrorMessage(error);
     }
   }
 
@@ -17,7 +18,7 @@ export class AuthService {
     try {
       return await bcrypt.compare(password, hash);
     } catch (error) {
-      console.log(error);
+      getErrorMessage(error);
     }
   }
 
@@ -25,7 +26,7 @@ export class AuthService {
     try {
       return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
     } catch (error) {
-      console.log(error);
+      getErrorMessage(error);
     }
   }
 
@@ -33,7 +34,7 @@ export class AuthService {
     try {
       return jwt.verify(token, JWT_SECRET);
     } catch (error) {
-      console.log(error);
+      getErrorMessage(error);
     }
   }
 
@@ -41,7 +42,7 @@ export class AuthService {
     try {
       return jwt.decode(token) as IPayload;
     } catch (error) {
-      console.log(error);
+      getErrorMessage(error);
     }
   }
 }
