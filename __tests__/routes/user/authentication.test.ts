@@ -2,10 +2,11 @@ import { clearDatabase, dbClose, dbConnection, saveUserInDB } from '../../utils/
 import { MockUser } from '../../utils/fake-data.util';
 import { post } from '../../utils/petition';
 import { HttpStatusCode } from '../../../src/common/utils/httpStatusCodes';
-import { UserModel } from '../../../src/modules/user/user.schema';
+
 beforeAll(dbConnection);
 afterEach(clearDatabase);
 afterAll(dbClose);
+
 describe('Register route', () => {
   test('Should response 400 Wrong data schema', async (done) => {
     const mockUser = new MockUser('admim@gmail.c', '123', '');

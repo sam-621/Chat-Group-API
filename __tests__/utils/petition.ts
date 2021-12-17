@@ -6,3 +6,7 @@ const app = new App().app;
 export const post = async (url: string, data: object): Promise<req.Test> => {
   return await req(app).post(url).set('authorization', API_KEY).send(data);
 };
+
+export const get = async (url: string, token: string): Promise<req.Test> => {
+  return await req(app).get(url).set('authorization', token);
+};
