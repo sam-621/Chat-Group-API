@@ -4,7 +4,7 @@ import { ServiceResponse } from '../../../common/utils/ServiceResponse';
 import { IUser } from '../user.interface';
 import { UserRepository } from '../user.repository';
 
-export class UserService {
+export class ProfileService {
   static async getUserData(userId: ObjectId): Promise<ServiceResponse<IUser>> {
     const user = await UserRepository.getById(userId, ['username', 'email', 'email', 'profilePic']);
 
