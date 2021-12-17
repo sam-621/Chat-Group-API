@@ -11,6 +11,8 @@ import { publicChatHandler } from './sockets/handlers';
 import { PUBLIC_CHAT } from '../common/config/constants.config';
 import { TIo } from './sockets/socket.interfaces';
 import { ProfileController } from './user/controllers/profile.controller';
+import cors from 'cors';
+import helmet from 'helmet';
 
 export class App {
   server: HttpServer;
@@ -68,6 +70,8 @@ export class App {
   }
 
   private setupExpressMiddleware() {
+    this.app.use(cors());
+    this.app.use(helmet());
     this.app.use(morgan('dev'));
     this.app.use(express.json());
   }
