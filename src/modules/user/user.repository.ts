@@ -8,7 +8,7 @@ export class UserRepository {
   }
 
   static async getById(id: ObjectId, fields: string[] = []) {
-    return UserModel.findById(id, ...fields);
+    return UserModel.findById(id, fields);
   }
 
   static async save(user: TRegisterDto) {

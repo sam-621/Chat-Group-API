@@ -2,6 +2,8 @@ import { Request, Response, Router } from 'express';
 import { IController } from '../../../common/interfaces/util.interface';
 import { hasValidJwt } from '../../../common/middlewares/jwt.middleware';
 import { ControllerResponse } from '../../../common/utils/ControllerResponse';
+import { UserDto } from '../dto/user.dto';
+import { UserService } from '../services/user.service';
 
 export class UserController implements IController {
   path = '/user/profile';
@@ -16,9 +18,10 @@ export class UserController implements IController {
   }
 
   async getUserData(req: Request, res: Response) {
-    console.log(req.user);
-    return new ControllerResponse({ data: req.user, message: 'OK', statusCode: 200 }, res);
+    const userDto = req.user as UserDto;
 
-    console.log('hi');
+    const ServiceResponse = await UserService.getUserData(userDto.id);
+
+    return new ControllerResponse(ServiceResponse, res);
   }
 }
