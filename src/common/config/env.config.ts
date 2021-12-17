@@ -5,7 +5,6 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 //APP
 export const MODE = process.env.NODE_ENV;
-export const API_KEY = process.env.API_KEY;
 
 //MONGO
 export const MONGO_DB_URI = process.env.MONGO_DB_URI;
