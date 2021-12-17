@@ -4,6 +4,8 @@
   "description": "An API for A web application",
   "main": "src/index.js",
   "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/server.js",
     "dev": "export NODE_ENV=dev && nodemon src/server.ts",
     "test:routes": "jest /routes/",
     "prepare": "node scripts/secrets.js"
@@ -15,7 +17,8 @@
   "keywords": [
     "Socket.io",
     "API",
-    "Javascript"
+    "Typescript",
+    "Express"
   ],
   "author": "Rogelio Samuel <@rogeliosamuel21>",
   "license": "MIT",
