@@ -16,13 +16,13 @@ export const hasValidJwt: IMiddleware = async (req, res, next) => {
     const decoded = await AuthService.decodeToken(token);
 
     if (!decoded) {
-      return new MiddlewareResponse('Token invalido', HttpStatusCode.UNAUTHORIZED, res);
+      return new MiddlewareResponse('invalid token', HttpStatusCode.UNAUTHORIZED, res);
     }
 
     const user = await UserRepository.getById(decoded.id, ['_id']);
 
     if (!user) {
-      return new MiddlewareResponse('Token invalido', HttpStatusCode.UNAUTHORIZED, res);
+      return new MiddlewareResponse('invalid token', HttpStatusCode.UNAUTHORIZED, res);
     }
 
     req.user = decoded as IPayload;
