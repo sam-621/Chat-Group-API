@@ -1,14 +1,14 @@
 # Chat-Group-API
 
-An API for A web application where you can join a group and chat with people that is in there. [Frontend part](https://github.com/rogeliosamuel621/Chat-Group)
+An API for A web application where you can send messages in a public chat in real time, login, register and see your profile. [Frontend part](https://github.com/rogeliosamuel621/Chat-Group)
 
-Demo: [ChatGroup](https://chatgroup.netlify.app/)
+Demo: in progress
 
 ## Built with
 
-- Node.js
+- Node.js - Express
 - Socket.io
-- Javascript
+- Typescript
 
 ## Getting started
 
