@@ -1,9 +1,11 @@
-export interface PublicChatDto {
+export interface IGlobalChatDto {
+  id: string;
   message: string;
-  owner: IPublicChatOwner;
+  owner: IGlobalChatOwner;
 }
 
-export interface IPublicChatOwner {
+export interface IGlobalChatOwner {
+  id: string;
   profilePic: string;
   username: string;
 }
