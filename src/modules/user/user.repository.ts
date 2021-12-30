@@ -1,5 +1,6 @@
-import { ObjectId } from 'mongoose';
+import { ObjectId, QueryOptions } from 'mongoose';
 import { TRegisterDto } from './dto/auth.dto';
+import { TUpdateUser, TUserDocument } from './user.interface';
 import { UserModel } from './user.schema';
 
 export class UserRepository {
@@ -17,5 +18,13 @@ export class UserRepository {
     });
 
     return await userToSave.save();
+  }
+
+  static async updateUser(
+    id: ObjectId,
+    data: TUpdateUser,
+    options?: QueryOptions
+  ): Promise<TUserDocument> {
+    return UserModel.findByIdAndUpdate(id, data, options);
   }
 }

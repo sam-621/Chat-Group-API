@@ -7,6 +7,12 @@ export interface IUser {
   profilePic?: string;
 }
 
+export type TUpdateUser = Omit<IUser, 'password'>;
+export type TUserDocument = Document<any, any, IUser> &
+  IUser & {
+    _id: ObjectId;
+  };
+
 export interface IPayload {
   id: ObjectId;
 }
