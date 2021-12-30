@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongoose';
 import { HttpStatusCode } from '../../../common/utils/httpStatusCodes';
 import { ServiceResponse } from '../../../common/utils/ServiceResponse';
+import { UpdateUserDto } from '../dto/user.dto';
 import { IUser } from '../user.interface';
 import { UserRepository } from '../user.repository';
 
@@ -17,13 +18,14 @@ export class ProfileService {
 
   static async UpdateUserInfo(
     userID: ObjectId,
-    username: string,
-    email: string
+    user: UpdateUserDto
   ): Promise<ServiceResponse<IUser>> {
     try {
-      const userInDbWithSameEmail = await UserRepository.getByEmail(email);
+      const updatedUser = await UserRepository.updateUser(userID, user);
 
-      if (Boolean(userInDbWithSameEmail)) {
+      return new ServiceResponse(HttpStatusCode.OK, updatedUser, 'OK');
+    } catch (e) {
+      if (e.code === 11000) {
         return new ServiceResponse(
           HttpStatusCode.BAD_REQUEST,
           null,
@@ -31,10 +33,6 @@ export class ProfileService {
         );
       }
 
-      const user = await UserRepository.updateUser(userID, { username: username, email: email });
-
-      return new ServiceResponse(HttpStatusCode.OK, user, 'OK');
-    } catch (e) {
       return new ServiceResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, null, 'Unexpected error');
     }
   }

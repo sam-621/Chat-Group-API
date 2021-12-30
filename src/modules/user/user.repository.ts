@@ -1,6 +1,6 @@
 import { ObjectId, QueryOptions } from 'mongoose';
 import { TRegisterDto } from './dto/auth.dto';
-import { TUpdateUser, TUserDocument } from './user.interface';
+import { UpdateUserDto } from './dto/user.dto';
 import { UserModel } from './user.schema';
 
 export class UserRepository {
@@ -20,7 +20,11 @@ export class UserRepository {
     return await userToSave.save();
   }
 
-  static async updateUser(id: ObjectId, data: TUpdateUser, options?: QueryOptions) {
-    return UserModel.findByIdAndUpdate(id, data, options);
+  static async updateUser(id: ObjectId, data: UpdateUserDto, options?: QueryOptions) {
+    return UserModel.findByIdAndUpdate(id, data, {
+      ...options,
+      new: true,
+      fields: ['username', 'email', 'profilePic'],
+    });
   }
 }
