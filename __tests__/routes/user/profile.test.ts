@@ -20,3 +20,7 @@ describe('Profile route', () => {
     expect(res.status).toBe(HttpStatusCode.OK);
   });
 });
+
+describe('Update profile endpoint', () => {
+  test('', async () => {});
+});
