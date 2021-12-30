@@ -20,11 +20,7 @@ export class UserRepository {
     return await userToSave.save();
   }
 
-  static async updateUser(
-    id: ObjectId,
-    data: TUpdateUser,
-    options?: QueryOptions
-  ): Promise<TUserDocument> {
+  static async updateUser(id: ObjectId, data: TUpdateUser, options?: QueryOptions) {
     return UserModel.findByIdAndUpdate(id, data, options);
   }
 }

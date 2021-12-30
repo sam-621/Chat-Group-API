@@ -14,4 +14,28 @@ export class ProfileService {
 
     return new ServiceResponse(HttpStatusCode.OK, user, 'Ok');
   }
+
+  static async UpdateUserInfo(
+    userID: ObjectId,
+    username: string,
+    email: string
+  ): Promise<ServiceResponse<IUser>> {
+    try {
+      const userInDbWithSameEmail = await UserRepository.getByEmail(email);
+
+      if (Boolean(userInDbWithSameEmail)) {
+        return new ServiceResponse(
+          HttpStatusCode.BAD_REQUEST,
+          null,
+          'user with that email already exists'
+        );
+      }
+
+      const user = await UserRepository.updateUser(userID, { username: username, email: email });
+
+      return new ServiceResponse(HttpStatusCode.OK, user, 'OK');
+    } catch (e) {
+      return new ServiceResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, null, 'Unexpected error');
+    }
+  }
 }
